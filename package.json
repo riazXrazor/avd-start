@@ -1,6 +1,6 @@
 {
   "name": "avd-start",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "A simple script to run android virtual device without the hassle of Android Studio",
   "main": "index.js",
   "bin": {
@@ -26,6 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.2",
+    "clear": "^0.1.0",
     "enquirer": "^2.3.0",
     "getos": "^3.1.1",
     "node-cmd": "^3.0.0",
