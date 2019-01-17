@@ -13,6 +13,13 @@
     "type": "git",
     "url": "https://github.com/riazXrazor/avd-start.git"
   },
+  "homepage": "https://github.com/riazXrazor/avd-start#readme",
+  "keywords": [
+    "android-device",
+    "avd",
+    "android",
+    "react-native"
+  ],
   "author": "Riaz Ali Laskar",
   "url": "https://github.com/riazXrazor/avd-start/issues",
   "email": "riazcool77@gmail.com",
