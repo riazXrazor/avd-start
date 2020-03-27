@@ -6,37 +6,45 @@ const getos = require('getos');
 const path = require('path');
 const chalk = require('chalk');
 const clear       = require('clear');
+const Configstore = require('configstore');
 const error = chalk.bold.red;
-
-
-
-
-
-
+const conf = new Configstore('avd-start', {});
 // Linux: ~/Android/Sdk
 // Mac: ~/Library/Android/sdk
 // Windows: %LOCALAPPDATA%\Android\sdk
 let sdk = []
-let defaultPath = ''
+let defaultPath = conf.get('sdkpath');
 getos(function(e,data) {
-    if(e) return console.log(e)
+    if(e) return console.log(error("Error detecting OS"))
     sdk = []
-    if(data.os.search(/win32/gi) !== -1){
-         defaultPath = '%LOCALAPPDATA%\\Android\\sdk'
-    } else if(data.os.search(/linx/gi) !== -1){
-         defaultPath = '~/Android/Sdk'
-    } else if(data.os.search(/darwin/gi) !== -1){
-         defaultPath = '~/Library/Android/sdk'
-    }
+    if(!defaultPath) {
+        if(data.os.search(/win32/gi) !== -1){
+            defaultPath = '%LOCALAPPDATA%\\Android\\sdk'
+        } else if(data.os.search(/linux/gi) !== -1){
+            defaultPath = '~/Android/Sdk'
+        } else if(data.os.search(/darwin/gi) !== -1){
+            defaultPath = '~/Library/Android/sdk'
+        }
+    } 
 
     sdk.push(defaultPath);
     sdk.push('emulator');
     sdk.push('emulator');
-    let sdkpath = path.join.apply(null,sdk);
 
+    
+    let sdkpath = path.join.apply(null,sdk);
     cmd.get(`${sdkpath} -version`,async function(err, data, stderr){
         if(err) {
             console.log(error(`Could not find android emulator sdk in default location '${sdkpath}'`))
+            const spath = await prompt({
+                type: 'input',
+                name: 'sdkpath',
+                message: 'Enter the android SDK path :',
+            });
+          
+            conf.set('sdkpath', spath.sdkpath);
+            console.log(chalk.green(`sdk path set at '${spath.sdkpath}'`))
+            shell.exec('avd-start');
             return;
         }
 
