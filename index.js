@@ -61,7 +61,7 @@ getos(function(e,data) {
                     });
                     
                     if(response.avd) {
-                        if (shell.exec(`${sdkpath} -avd ${response.avd}`).code !== 0) {
+                        if (shell.exec(`${sdkpath} -avd ${response.avd} -no-snapshot`).code !== 0) {
                             shell.exit(1);
                         }
                     }
